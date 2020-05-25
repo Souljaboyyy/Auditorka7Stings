@@ -1,0 +1,7 @@
+﻿  main.c
+d:\audi6users\audi6users\main.c(14): warning C4013: '_getche' undefined; assuming extern returning int
+d:\audi6users\audi6users\main.c(47): warning C4018: '<': signed/unsigned mismatch
+d:\audi6users\audi6users\main.c(50): warning C4018: '<': signed/unsigned mismatch
+d:\audi6users\audi6users\main.c(7): warning C4101: 'o': unreferenced local variable
+  audi6USERS.vcxproj -> D:\audi6USERS\Debug\audi6USERS.exe
+  audi6USERS.vcxproj -> D:\audi6USERS\Debug\audi6USERS.pdb (Partial PDB)
