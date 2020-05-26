@@ -1,62 +1,21 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-
-int main()
-{
-	int i = 0, maxd = 0, dlina = 0, levo,o;
-	int symb[123] = { 0 };
-	char* str = (char*)malloc(sizeof(char));
-	printf("Type your string : \n");
-
-	while (1)
-	{
-		str[i] = _getche();
-		if (str[i] == '\r')
-		{
-			str[i] = '\0';
-			break;
-		}
-		if (str[i] == '\b')
-		{
-			if (i > 1)
-			{
-				i -= 1;
-				str[i] = '\0';
-				system("cls");
-				printf("%s", str);
-				
-			}
-			if (i <= 1)
-			{
-				i = 0;
-				str = (char*)realloc(str, i + 1);
-
-			}
-		}
-
-		i++;
-		str = (char*)realloc(str, i + 1);
-	}
-	str[i] = '\0';
-	printf("\n");
-	i = 0;
-
-	char* itog = (char*)calloc(strlen(str), sizeof(char));
-
-	for (int j = 0; j < strlen(str); j++)
+#include <malloc.h>
+char* Podschet(char *mass,int lenght) {
+	int j = 0;int symb[123] = { 0 },dlina=0,maxd=0,levo;
+	for (j; j < lenght; j++)
 	{
 		int k = 0;
-		while (symb[(int)str[k + j]] != 1 && k + j < strlen(str))
+		while (symb[(int)mass[k + j]] != 1 && k + j < lenght)
 		{
-			symb[(int)str[k + j]]++;
+			symb[(int)mass[k + j]]++;
 			dlina++;
 			k++;
 		}
 		if (dlina > maxd)
 		{
 			maxd = dlina;
-		//	o = k;
 			dlina = 0;
 			levo = j;
 		}
@@ -64,14 +23,87 @@ int main()
 		for (int i = 0; i < 123; i++)
 			symb[i] = 0;
 	}
-
-	for (int q = 0; q < maxd; q++)
+	char *itog = (char*)malloc(maxd * sizeof(char));
+	for (j=0; j < maxd; j++)
 	{
-		itog[q] = str[levo + q];
+		itog[j] = mass[levo + j];
 	}
-	printf("%s\n", itog);
-	printf("Dlina = %d\n",maxd);
-	free(str);
+	return itog;
+}
+int PodschetDlin(char *mass, int lenght) {
+	int j = 0; int symb[123] = { 0 }, dlina=0, maxd=0, levo;
+	for (j; j < lenght; j++)
+	{
+		int k = 0;
+		while (symb[(int)mass[k + j]] != 1 && k + j < lenght)
+		{
+			symb[(int)mass[k + j]]++;
+			dlina++;
+			k++;
+		}
+		if (dlina > maxd)
+		{
+			maxd = dlina;
+			dlina = 0;
+			levo = j;
+		}
+		else dlina = 0;
+		for (int i = 0; i < 123; i++)
+			symb[i] = 0;
+	}
+	char *itog = (char*)malloc(maxd * sizeof(char));
+	for (j; j < maxd; j++)
+	{
+		itog[j] = mass[levo + j];
+	}
+	return maxd;
+}
+int main()
+{
+	int i = 0, maxd = 0, dlina = 0;
+	char s;
+	//char* str = (char*)malloc(sizeof(char));
+	FILE *fp;
+	fopen_s(&fp, "string.txt", "w");
+	printf("Type your string : (Tap enter to calculate) \n");
+	while (!feof(fp)) {
+		s = getche();
+		/*if ((int)s == 44)
+			break;*/
+	//	if ((((int)s > 47) && ((int)s < 58)) || (((int)s > 64) && ((int)s < 91)) || (((int)s > 96) && ((int)s < 123)) || ((int)s == 32))
+			dlina++;
+		fprintf(fp,"%c", s);
+		if (s == '\r')
+		{
+			s = '\0';
+			break;
+		}
+	}
+	dlina -= 1;
+	fclose(fp);
+	fopen_s(fp, "string.txt", "r");
+	char *stroka = (char*)malloc(dlina * sizeof(char));
+	for (i = 0; i < dlina; i++) {
+		fscanf_s(fp,"%c", &stroka[i]);
+	}
+	printf("\n");
+	fclose(fp);
+	/*for (i = 0; i < dlina ; i++)
+		printf("%c", stroka[i]);*/
+	printf("\n");
+	maxd = PodschetDlin(stroka, dlina);
+	char *itog = (char*)malloc(maxd * sizeof(char));
+	itog=Podschet(stroka,dlina);
+	for (i = 0; i < maxd; i++)
+		printf("%c", itog[i]);
+	printf("\nDlina = %d\n",maxd);
+	fopen_s(fp, "string.txt", "w");
+	for (i = 0; i < maxd; i++)
+		fprintf(fp,"%c", itog[i]);
+	fprintf(fp, "\n%d", maxd);
+	fclose(fp);
+	free(stroka);
+	free(itog);
 	system("pause");
 	return 0;
 }
