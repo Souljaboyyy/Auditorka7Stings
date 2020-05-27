@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <malloc.h>
-char* Podschet(char *mass,int lenght) {
+void Podschet(char *mass,int lenght) {
 	int j = 0;int symb[123] = { 0 },dlina=0,maxd=0,levo;
 	for (j; j < lenght; j++)
 	{
@@ -28,9 +28,14 @@ char* Podschet(char *mass,int lenght) {
 	{
 		itog[j] = mass[levo + j];
 	}
-	return itog;
+	FILE *fp;
+	fopen_s(&fp, "str.txt", "w");
+	fprintf(fp, "%d\n", maxd);
+	for (int i = 0; i < maxd; i++)
+		fprintf(fp, "%c", itog[i]);
+	fclose(fp);
 }
-int PodschetDlin(char *mass, int lenght) {
+/*int PodschetDlin(char *mass, int lenght) {
 	int j = 0; int symb[123] = { 0 }, dlina=0, maxd=0, levo;
 	for (j; j < lenght; j++)
 	{
@@ -57,7 +62,7 @@ int PodschetDlin(char *mass, int lenght) {
 		itog[j] = mass[levo + j];
 	}
 	return maxd;
-}
+}*/
 int main()
 {
 	int i = 0, maxd = 0, dlina = 0;
@@ -86,24 +91,21 @@ int main()
 	for (i = 0; i < dlina; i++) {
 		fscanf_s(fp,"%c", &stroka[i]);
 	}
-	printf("\n");
+	Podschet(stroka, dlina);
 	fclose(fp);
 	/*for (i = 0; i < dlina ; i++)
 		printf("%c", stroka[i]);*/
+	fopen_s(&fp, "str.txt", "r");
+	fscanf_s(fp, "%d", &maxd);
+	fgetc(fp);
 	printf("\n");
-	maxd = PodschetDlin(stroka, dlina);
-	char *itog = (char*)malloc(maxd * sizeof(char));
-	itog=Podschet(stroka,dlina);
-	for (i = 0; i < maxd; i++)
-		printf("%c", itog[i]);
-	printf("\nDlina = %d\n",maxd);
-	fopen_s(fp, "string.txt", "w");
-	for (i = 0; i < maxd; i++)
-		fprintf(fp,"%c", itog[i]);
-	fprintf(fp, "\n%d", maxd);
+	for (i = 0; i < maxd; i++) {
+		s = fgetc(fp);
+		printf("%c", s);
+	}
+	printf("\nDlina = %d\n", maxd);
 	fclose(fp);
 	free(stroka);
-	free(itog);
 	system("pause");
 	return 0;
 }
